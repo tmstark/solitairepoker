@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solitaire Poker</title>
+<style>
+  body {
+    background-color: #006400; 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #fff;
+    text-align: center;
+  }
+  .title {
+    font-size: 36px;
+    font-weight: bold;
+    font-family: 'Brush Script MT', cursive; 
+    margin: 20px 0;
+    color: #fff;
+  }
+  table {
+    width: 60%;
+    margin: 0 auto;
+    border-collapse: collapse;
+  }
+  td {
+    width: 20%;
+    height: 100px;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid #000;
+    font-size: 24px;
+    background-color: #f9f9f9; 
+  }
+  .heart, .diamond {
+    color: red;
+  }
+  .spade, .club {
+    color: black;
+  }
+</style>
+</head>
+<body>
+
+<div class="title">Solitaire Poker</div>
+<button id="refreshButton" style="font-size: 20px; margin: 20px;">Refresh Cards</button>
+
+<table></table>
+
+<script>
+  const suits = ['♠', '♣', '♥', '♦'];
+  const values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+  const suitClasses = {
+    '♠': 'spade',
+    '♣': 'club',
+    '♥': 'heart',
+    '♦': 'diamond'
+  };
+
+  function generateDeck() {
+    let deck = [];
+    suits.forEach(suit => {
+      values.forEach(value => {
+        deck.push({value: value, suit: suit, class: suitClasses[suit]});
+      });
+    });
+    return deck;
+  }
+
+  function shuffleDeck(deck) {
+    for (let i = deck.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [deck[i], deck[j]] = [deck[j], deck[i]]; 
+    }
+  }
+
+  function generatePokerSolitaireGrid() {
+    const deck = generateDeck();
+    shuffleDeck(deck);
+    const table = document.querySelector('table');
+    for (let i = 0; i < 5; i++) {
+      const row = table.insertRow();
+      for (let j = 0; j < 5; j++) {
+        const cell = row.insertCell();
+        const card = deck[i * 5 + j];
+        cell.innerHTML = `<span class="${card.class}">${card.value}${card.suit}</span>`;
+      }
+    }
+  }
+
+  window.onload = generatePokerSolitaireGrid;
+</script>
+
+</body>
+</html>
